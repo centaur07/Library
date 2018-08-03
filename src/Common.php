@@ -1,22 +1,5 @@
 <?php
-/**
- * Save debug log
- * @param  string $content Log content
- * @return integer
- */
-function saveDebugLog($content = '')
-{
-    $logPath = './debug_log_' . date('ymd') . '.txt';
-    $parseList = array('array', 'object');
-    $dataType = gettype($content);
-    if (in_array($dataType, $parseList) === true) {
-        $logContent = print_r($content, true);
-    } else {
-        $logContent = $content;
-    }
-    $log = date('Y-m-d H:i:s') . ' ' . $logContent . PHP_EOL;
-    return file_put_contents($logPath, $log, FILE_APPEND);
-}
+
 
 /**
  * Check if the URL use HTTPS
