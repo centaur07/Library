@@ -1,6 +1,7 @@
 <?php
 namespace app\library;
 
+use PDO;
 use app\library\Input;
 
 final class PdoProxy
@@ -23,7 +24,7 @@ final class PdoProxy
         $inputs = Input::only($info, $list);
 
         $dsn = self::getDsn($inputs['host'], $inputs['db'], $inputs['charset']);
-        $pdo = new \PDO($dsn, $inputs['user'], $inputs['password']);
+        $pdo = new PDO($dsn, $inputs['user'], $inputs['password']);
         self::config($pdo, $inputs['charset']);
 
         return $pdo;
@@ -51,12 +52,15 @@ final class PdoProxy
      */
     private static function config(&$pdo, $charset)
     {
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
         // Set to prevent SQL injection(Prior to 5.3.6)
         $currentVersion = phpversion();
         if (version_compare($currentVersion, '5.3.6') >= 0) {
-            $pdo->setAttribute(\PDO::ATTR_EMULATE_PREPARES, false); // Use native prepared statements
+            $pdo->setAttribute(PDO::ATTR_EMULATE_PREPARES, false); // Use native prepared statements
             $pdo->exec('set names ' . $charset); // Prior to 5.3.6, the charset option was ignored
         }
         unset($currentVersion);
+
     }
 }
