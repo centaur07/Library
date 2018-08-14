@@ -4,10 +4,6 @@ use app\library\PdoProxy;
 
 final class PdoProxyTest extends TestCase
 {
-    /**
-     * Test saveTo function
-     * @return void
-     */
     public function testGetPdo()
     {
         // Arrange
@@ -20,7 +16,7 @@ final class PdoProxyTest extends TestCase
         );
         $errorMessage = __FUNCTION__ . ' failed';
 
-        // Act
+        // Actual
         $actual = PdoProxy::get($dbInfo);
 
         // Assert
@@ -31,4 +27,27 @@ final class PdoProxyTest extends TestCase
         $actual = null;
     }
 
+    public function testGetInsertValues()
+    {
+        // Arrange
+        $value = array(
+            'a' => 'A',
+            'b' => 'B',
+        );
+        $expected = array(
+            ':a' => 'A',
+            ':b' => 'B',
+        );
+        $errorMessage = __FUNCTION__ . ' failed';
+
+        // Actual
+        $actual = PdoProxy::getInsertValues($value);
+
+        // Assert
+        $this->assertEquals(
+            $expected,
+            $actual,
+            $errorMessage
+        );
+    }
 }

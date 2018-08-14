@@ -31,6 +31,22 @@ final class PdoProxy
     }
 
     /**
+     * Get PDO format INSERT value
+     * @param  array     $source          Source value
+     * @return array                      PDO INSERT value
+     */
+    public static function getInsertValues($source)
+    {
+        $insertValues = array();
+        if (!empty($source)) {
+            foreach ($source as $name => $value) {
+                $insertValues[':' . $name] = $value;
+            }
+        }
+        return $insertValues;
+    }
+
+    /**
      * Get DSN
      * @param  string    $host    Host
      * @param  string    $db      DB name
