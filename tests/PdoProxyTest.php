@@ -50,4 +50,19 @@ final class PdoProxyTest extends TestCase
             $errorMessage
         );
     }
+
+    public function testGetFieldsWithValue()
+    {
+        // Arrange
+        $fields = array('name', 'age');
+        $separator = ' AND ';
+        $expected = 'name=:name AND age=:age';
+        $errorMessage = __FUNCTION__ . ' failed';
+
+        // Actual
+        $actual = PdoProxy::getFieldsWithValue($fields, $separator);
+
+        // Assert
+        $this->assertEquals($expected, $actual, $errorMessage);
+    }
 }

@@ -38,12 +38,35 @@ final class PdoProxy
     public static function getPrepareValues($source)
     {
         $insertValues = array();
+
         if (!empty($source)) {
             foreach ($source as $name => $value) {
                 $insertValues[':' . $name] = $value;
             }
         }
+
         return $insertValues;
+    }
+
+    /**
+     * Get the prepare string fields with value
+     * @param  array     $fields       Fields
+     * @param  string    $separator    Fields separator
+     * @return string                  Fields with value
+     */
+    public static function getFieldsWithValue($fields, $separator = ', ')
+    {
+        $result = '';
+        $glue = '';
+
+        if (!empty($fields)) {
+            foreach ($fields as $field) {
+                $result .= $glue . $field . '=:' . $field;
+                $glue = $separator;
+            }
+        }
+
+        return $result;
     }
 
     /**
