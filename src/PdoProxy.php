@@ -31,11 +31,11 @@ final class PdoProxy
     }
 
     /**
-     * Get PDO format INSERT value
+     * Get prepare string value
      * @param  array     $source          Source value
-     * @return array                      PDO INSERT value
+     * @return array                      PDO prepare string value
      */
-    public static function getInsertValues($source)
+    public static function getPrepareValues($source)
     {
         $insertValues = array();
         if (!empty($source)) {
