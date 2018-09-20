@@ -5,11 +5,15 @@ final class Output
 {
     /**
      * Display the content
-     * @param  string    $content    Content
+     * @param  string    $content     Content
+     * @param  bool      $withDate    Display with date
      * @return void
      */
-    public static function display($content)
+    public static function display($content, $withDate = true)
     {
-        echo date('Y-m-d H:i:s') . '    ' . print_r($content, true) . PHP_EOL;
+        if ($withDate === true) {
+            echo date('Y-m-d H:i:s') . '    ';
+        }
+        echo print_r($content, true) . PHP_EOL;
     }
 }
