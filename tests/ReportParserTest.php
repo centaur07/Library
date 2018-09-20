@@ -69,7 +69,7 @@ final class ReportParserTest extends TestCase
     public function testGetItemInfo()
     {
         // Arrange
-        $filePath = './testGetReport.txt';
+        $filePath = './testGetItemInfo.txt';
         $readRowsReturn = array(
             'SQL Injection\Path 1: ' . "\r\n",
             'not use info... ' . "\r\n",
@@ -104,15 +104,44 @@ final class ReportParserTest extends TestCase
         
         // Act
         $actual = $target->getItemInfo($filePath);
-
-        // foreach($actual as $row) {
-        //     if ($row['type'] === 'SQL Injection') {
-        //         // var_dump($row);
-        //         // echo $row['description'] . $row['path'] . PHP_EOL;
-                
-        //     }
-        // }
         
+        // Assert
+        $this->assertEquals($expected, $actual, $errorMessage);
+    }
+
+    /**
+     * @depends testGetReport
+     */
+    public function testGetReportWithout()
+    {
+        // Arrange
+        $filePath = './testGetReportWithoutFile.txt';
+        $readRowsReturn = array(
+            'line1' . "\r\n",
+            'line2 ignore' . "\r\n",
+            'line3' . "\r\n",
+            'line4 ignore again' . "\r\n"
+        );
+        $ignoreList = array(
+            'ignore',
+            'ignore again',
+        );
+        $expected = array(
+            'line1',
+            'line3',
+        );
+        $file = $this->getMockBuilder('File')
+            ->setMethods(array('readRows'))
+            ->getMock();
+        $file->expects($this->any())
+            ->method('readRows')
+            ->will($this->returnValue($readRowsReturn));
+        $errorMessage = __FUNCTION__ . ' failed';
+        $target = new ReportParser($file);
+        
+        // Act
+        $actual = $target->getReportWithout($filePath, $ignoreList);
+
         // Assert
         $this->assertEquals($expected, $actual, $errorMessage);
     }

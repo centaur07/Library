@@ -108,4 +108,32 @@ final class ReportParser
 
         return $data;
     }
+
+    /**
+     * Get the report without specific content
+     * @param  string    $path          The report path
+     * @param  array     $ignoreList    The ignore list
+     * @return array                    Report
+     */
+    public function getReportWithout($path, $ignoreList)
+    {
+        $report = array();
+        $rows = $this->getReport($path);
+
+        foreach ($rows as $row) {
+            // Check the ignore list
+            $isMatch = false;
+            foreach ($ignoreList as $piece) {
+                if (substr_count($row, $piece) > 0) {
+                    $isMatch = true;
+                    continue;
+                }
+            }
+            if ($isMatch === false) {
+                array_push($report, $row);
+            }
+        }
+
+        return $report;
+    }
 }
