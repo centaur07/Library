@@ -21,4 +21,22 @@ final class Input
         }
         return $inputs;
     }
+
+    /**
+     * Get the value with default value
+     * @param  mixed    $source    Source value
+     * @param  mixed    $default   Default value
+     * @return mixed               Value
+     */
+    public static function get($source, $default = '')
+    {
+        $value = '';
+        if (empty($source)) {
+            $value = $default;
+        } else {
+            $value = $source;
+        }
+
+        return $value;
+    }
 }
