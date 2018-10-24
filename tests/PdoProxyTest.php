@@ -12,7 +12,7 @@ final class PdoProxyTest extends TestCase
             'host' => 'localhost',
             'charset' => 'utf8',
             'user' => 'root',
-            'password' => ''
+            'password' => 'test1234'
         );
         $errorMessage = __FUNCTION__ . ' failed';
 
@@ -27,7 +27,7 @@ final class PdoProxyTest extends TestCase
         $actual = null;
     }
 
-    public function testGetInsertValues()
+    public function testGetPrepareValues()
     {
         // Arrange
         $value = array(
@@ -41,7 +41,7 @@ final class PdoProxyTest extends TestCase
         $errorMessage = __FUNCTION__ . ' failed';
 
         // Actual
-        $actual = PdoProxy::getInsertValues($value);
+        $actual = PdoProxy::getPrepareValues($value);
 
         // Assert
         $this->assertEquals(
@@ -49,5 +49,20 @@ final class PdoProxyTest extends TestCase
             $actual,
             $errorMessage
         );
+    }
+
+    public function testGetFieldsWithValue()
+    {
+        // Arrange
+        $fields = array('name', 'age');
+        $separator = ' AND ';
+        $expected = 'name=:name AND age=:age';
+        $errorMessage = __FUNCTION__ . ' failed';
+
+        // Actual
+        $actual = PdoProxy::getFieldsWithValue($fields, $separator);
+
+        // Assert
+        $this->assertEquals($expected, $actual, $errorMessage);
     }
 }
